@@ -34,7 +34,7 @@ void setup() {
     size(left.width, left.height);
     noLoop();
 }
-void setup() {
+void draw() {
     image(g.render(),0,0);
 }
 ```
