@@ -2,7 +2,7 @@ OBJ j;
 //
 // UPDATE THIS TO INCLUDE THE ABSOLUTE PATH IN YOUR COMPUTER!
 //
-String location = "/home/euler/sketchbook/project/"; 
+String location = "/home/euler/sketchbook/project/assets/"; 
 
 void setup() {
   j = new OBJ(location+"icosahedron.obj");
