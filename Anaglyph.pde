@@ -15,7 +15,6 @@ class Anaglyph {
    *  @param r      The right image
   */
   Anaglyph(PImage l, PImage r) {
-    
     left = l;
     right = r;
   }
