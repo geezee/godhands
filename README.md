@@ -3,7 +3,8 @@ GODHANDS
 
 Description
 -----------
-An application that lets you interact with 3D objects in space! 
+An application that lets you interact with 3D objects in space!
+Originally a final year project for the Digital Media Programming course (CMPS230) at the [American University of Beirut](http://aub.edu.lb)
 
 You load an object (.obj) file, you turn on your camera, and move around, the object will react according to your movements (rotate, scale, move...)
 
@@ -19,6 +20,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Branches
+--------
+- **`master`** where the final product lives
+- **`exp_obj`** where experimentation and improvements of the OBJ class are *(maintained by George Zakhour)*
+- **`exp_obj_anaglyph`** where the code to experiment with loading an anaglyph obj lives *(maintained by George Zakhour)*
+- **`webcam`** where code to connect and retrieve data from the webcam live *(maintained by Remi Nassar)*
 
 Documentation
 -------------
