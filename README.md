@@ -26,7 +26,7 @@ Branches
 - **`master`** where the final product lives
 - **`exp_obj`** where experimentation and improvements of the OBJ class are *(maintained by George Zakhour)*
 - **`exp_obj_anaglyph`** where the code to experiment with loading an anaglyph obj lives *(maintained by George Zakhour)*
-- **`webcam`** where code to connect and retrieve data from the webcam live *(maintained by Remi Nassar)*
+- **`exp_webcam`** where code to connect and retrieve data from the webcam live *(maintained by Remi Nassar)*
 
 Documentation
 -------------
