@@ -44,7 +44,7 @@ void draw() {
   // setup the geometry of the scene
   right.translate(width/2, height/2);
   right.scale(0.7); // scale the object so it's visible
-  right.shape(j.getShape(),-20,0);
+  right.shape(j.getShape(),-30,0);
   right.endDraw();
 
   a.updateLeft(left);

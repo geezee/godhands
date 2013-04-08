@@ -55,8 +55,8 @@ class Anaglyph {
     PImage anaglyph = createImage(left.width,left.height,RGB);
     
     // convert left and right images to grayscale
-    left = createBW(left);
-    right = createBW(right);
+    // left = createBW(left);
+    // right = createBW(right);
     
     // Load all the pixels
     anaglyph.loadPixels();
