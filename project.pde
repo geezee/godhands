@@ -3,30 +3,54 @@ OBJ j;
 // UPDATE THIS TO INCLUDE THE ABSOLUTE PATH IN YOUR COMPUTER!
 //
 String location = "/home/euler/sketchbook/project/assets/"; 
+PGraphics left, right;
+Anaglyph a = new Anaglyph(left, right);
+
 
 void setup() {
   j = new OBJ(location+"icosahedron.obj");
   size(500, 500, P3D);
+  left = createGraphics(500,500,P3D);
+  right = createGraphics(500,500,P3D);
 }
-
 
 /**
  * Draws the frame
 */
 void draw() {
-  background(0);
-  noStroke();
+  left.beginDraw();
+  left.background(0);
+  left.noStroke();
   
   // create the light
-  directionalLight(120, 120, 120, 0, 0, -1);
-  ambientLight(120, 120, 120);
+  left.directionalLight(120, 120, 120, 0, 0, -1);
+  left.ambientLight(120, 120, 120);
   
   // setup the geometry of the scene
-  translate(width/2, height/2);
-  scale(80); // scale the object so it's visible
+  left.translate(width/2, height/2);
+  left.scale(80); // scale the object so it's visible
+  
   
   // draw the shape
-  shape(j.getShape(),0,0);
+  left.shape(j.getShape(),0,0);
+  left.endDraw();
+  
+  right.beginDraw();
+  right.background(0);
+  right.noStroke();
+  right.directionalLight(120, 120, 120, 0, 0, -1);
+  right.ambientLight(120, 120, 120);
+  
+  // setup the geometry of the scene
+  right.translate(width/2-7, height/2);
+  right.scale(80); // scale the object so it's visible
+  right.shape(j.getShape(),0,0);
+  right.endDraw();
+
+  a.updateLeft(left);
+  a.updateRight(right);
+  
+  image(a.render(), 0, 0);
   
 }
 
