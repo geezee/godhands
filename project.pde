@@ -8,7 +8,7 @@ Anaglyph a = new Anaglyph(left, right);
 
 
 void setup() {
-  j = new OBJ(location+"icosahedron.obj");
+  j = new OBJ(location+"eiffel.obj");
   size(500, 500, P3D);
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
@@ -28,7 +28,7 @@ void draw() {
   
   // setup the geometry of the scene
   left.translate(width/2, height/2);
-  left.scale(80); // scale the object so it's visible
+  left.scale(0.7); // scale the object so it's visible
   
   
   // draw the shape
@@ -42,9 +42,9 @@ void draw() {
   right.ambientLight(120, 120, 120);
   
   // setup the geometry of the scene
-  right.translate(width/2-7, height/2);
-  right.scale(80); // scale the object so it's visible
-  right.shape(j.getShape(),0,0);
+  right.translate(width/2, height/2);
+  right.scale(0.7); // scale the object so it's visible
+  right.shape(j.getShape(),-20,0);
   right.endDraw();
 
   a.updateLeft(left);
