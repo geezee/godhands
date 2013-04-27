@@ -6,7 +6,7 @@ Description
 An application that lets you interact with 3D objects in space!
 Originally a final year project for the Digital Media Programming course (CMPS230) at the [American University of Beirut](http://aub.edu.lb)
 
-You load an object (.obj) file, you turn on your camera, and move around, the object will react according to your movements (rotate, scale, move...)
+You load an object (.obj) file, you turn on your camera, and move around, the object will react according to your movements.
 
 License
 -------
@@ -23,18 +23,12 @@ You should have received a copy of the GNU General Public License along with thi
 
 Dependecies
 -----------
-For Debian user, processing (to connect to the internet depends on the following packages)
+For Debian user, processing (to connect to the camera depends on the following packages)
+
 - `libgstreamer-plugins-base0.10-dev`
 - `libgstfarsight0.10-dev`
 - `libgstreamer0.10-dev`
 
-
-Branches
---------
-- **`master`** where the final product lives
-- **`exp_obj`** where experimentation and improvements of the OBJ class are *(maintained by George Zakhour)*
-- **`exp_obj_anaglyph`** where the code to experiment with loading an anaglyph obj lives *(maintained by George Zakhour)*
-- **`webcam`** where code to connect and retrieve data from the webcam live *(maintained by Remi Nassar)*
 
 Documentation
 -------------
@@ -44,6 +38,7 @@ The projects includes the following:
 
 * [**Anaglyph Library**](#anaglyph)
 * [**OBJ Library**](#obj)
+* [**SimpleMotionDetection**](#motion)
 
 ###Anaglyph Library<a id="anaglyph"></a>
 The library consists of a class `Anaglyph` that creates anaglyph images provided two `PImage`s 
@@ -105,10 +100,71 @@ void draw() {
 }
 ```
 
+###Simple Motion Detection<a id="motion"></a>
+The library consists of a class `SimpleMotionDetection` that handles in a very minimalistic and simple
+way motion detection in 2 images given. The library, given the old frame and current one, checks
+pixel by pixel where the colors are not equal within a range, if they are not equal then motion happens.
+
+The public methods in that class are:
+
+- `SimpleMotionDetection(int)` (Constructor) will create the engine, int is how strict the engine should be: 0 very strict, 255 least strict.
+- `setPrevious(PImage)` sets the previous variable, that is the last frame to compare with the current one
+- `setCurrent(PImage)` sets the current variable, the way that will be compared the previous frame
+- `setTreshold(int)` change the strictness of the engine
+- `getPrevious()` returns the previous image (PImage)
+- `getCurrent()` returns the current image (PImage)
+- `getTreshold()` returns the strictness of the engine (int)
+- `getDiff()` returns the dithered image that represents in black pixels where the motion happened
+- `getMotionLocation()` returns the location of the motion. The image checks the location of all the motion pixels and then gets the average location between them
+- `getOverallMotionVector()` returns the motion vector of the motion that occured
+
+```
+import processing.video.*;
+Capture camera;
+SimpleMotionDetection md;
+PImage prev;
+
+void setup() {
+        camera = new Capture(this, 320, 240, 30);
+        camera.start();
+        md = new SimpleMotionDetection(50);
+        prev = createImage(camera.width, camera.height, RGB);
+        size(640, 240);
+}
+
+void draw() {
+        if(camera.available()) {
+                prev = createImage(camera.width, camera.height, RGB);
+                prev.copy(camera, 0, 0, camera.width, camera.height, 0, 0, camera.width, camera.height);
+                prev.updatePixels();
+                camera.read();
+        }
+        md.setPrevious(prev);
+        md.setCurrent(camera);
+
+        image(md.getDiff(), 0, 0);
+        image(camera, 320, 0);
+
+        PVector loc = md.getMotionLocation();
+        noStroke();
+        fill(color(255, 0, 0));
+        ellipse(320+loc.x, loc.y);
+}
+```
+
+
 Contributors
 ------------
 - [George Zakhour][3] [gez00@aub.edu.lb][1]
 - Remi Nassar [rmn30@aub.edu.lb][2]
+
+
+Credits
+-------
+- The `SimpleMotionDetection` class was inspired from Daniel Shiffman's [Chapter 16: Example 16-23: Simple Motion Detection](http://www.learningprocessing.com/examples/chapter-16/example-16-13/)
+
+
+
 
 [1]: mailto:gez00@aub.edu.lb    "George Zakhour"
 [2]: mailto:rmn30@aub.edu.lb    "Remi Nassar"
