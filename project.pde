@@ -6,10 +6,10 @@ OBJ j;
 //
 String location = "/home/euler/sketchbook/project/assets/"; 
 PGraphics left, right;
-Anaglyph a = new Anaglyph(left, right);
-Capture camera;
-SimpleMotionDetection md;
-PImage prev;
+Anaglyph a = new Anaglyph(left, right); // the anaglyph object
+Capture camera; // the webcam
+SimpleMotionDetection md; // the motion detection object
+PImage prev; // the previous frame
 
 
 void setup() {
@@ -57,11 +57,13 @@ void draw() {
   right.shape(j.getShape(),-30,0);
   right.endDraw();
 
+  // update the eyes and display the result
   a.updateLeft(left);
   a.updateRight(right);
-  
   image(a.render(), 0, 0);
   
+
+  /** The motion detection is here **/
   if(camera.available()) {
     prev = createImage(camera.width, camera.height, RGB);
     prev.copy(camera, 0, 0, camera.width, camera.height, 0, 0, camera.width, camera.height);
@@ -71,16 +73,16 @@ void draw() {
   md.setPrevious(prev);
   md.setCurrent(camera);
 
-  md.getDiff();
-  PVector motion = md.getOverallMotionVector();
-  motion.div(500);
-  j.boost(new PVector(motion.y, motion.x));
+  md.getDiff(); // create the diff image
+  PVector motion = md.getOverallMotionVector(); // get the motion vector
+  motion.div(500); // reduce the weight it does by 500
+  j.boost(new PVector(motion.y, motion.x)); // invert the vector and boost the object
 
   // Display user
   image(camera, 340, 380, 160, 120);
   PVector loc = md.getMotionLocation();
   noStroke();
-  stroke(color(255, 0, 0));
+  fill(color(255, 0, 0));
   ellipse(340+loc.x/2, 380+loc.y/2, 5, 5);
 }
 
