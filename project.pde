@@ -14,13 +14,13 @@ PImage prev;
 
 void setup() {
   j = new OBJ(location+"eiffel.obj");
-  size(500, 500, P3D);
+  size(600, 500, P3D);
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
 
   camera = new Capture(this, 320, 240, 30);
   camera.start();
-  md = new SimpleMotionDetection(60);
+  md = new SimpleMotionDetection(50);
   prev = createImage(camera.width, camera.height, RGB);
 }
 
@@ -70,7 +70,18 @@ void draw() {
   }
   md.setPrevious(prev);
   md.setCurrent(camera);
-  image(md.getDiff(), 0, 0);
+
+  md.getDiff();
+  PVector motion = md.getOverallMotionVector();
+  motion.div(500);
+  j.boost(new PVector(motion.y, motion.x));
+
+  // Display user
+  image(camera, 340, 380, 160, 120);
+  PVector loc = md.getMotionLocation();
+  noStroke();
+  stroke(color(255, 0, 0));
+  ellipse(340+loc.x/2, 380+loc.y/2, 5, 5);
 }
 
 
