@@ -1,3 +1,5 @@
+import processing.video.*;
+
 OBJ j;
 //
 // UPDATE THIS TO INCLUDE THE ABSOLUTE PATH IN YOUR COMPUTER!
@@ -5,6 +7,9 @@ OBJ j;
 String location = "/home/euler/sketchbook/project/assets/"; 
 PGraphics left, right;
 Anaglyph a = new Anaglyph(left, right);
+Capture camera;
+SimpleMotionDetection md;
+PImage prev;
 
 
 void setup() {
@@ -12,6 +17,11 @@ void setup() {
   size(500, 500, P3D);
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
+
+  camera = new Capture(this, 320, 240, 30);
+  camera.start();
+  md = new SimpleMotionDetection(60);
+  prev = createImage(camera.width, camera.height, RGB);
 }
 
 /**
@@ -52,6 +62,15 @@ void draw() {
   
   image(a.render(), 0, 0);
   
+  if(camera.available()) {
+    prev = createImage(camera.width, camera.height, RGB);
+    prev.copy(camera, 0, 0, camera.width, camera.height, 0, 0, camera.width, camera.height);
+    prev.updatePixels();
+    camera.read();
+  }
+  md.setPrevious(prev);
+  md.setCurrent(camera);
+  image(md.getDiff(), 0, 0);
 }
 
 
