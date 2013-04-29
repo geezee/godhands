@@ -75,14 +75,14 @@ void draw() {
   md.setPrevious(prev);
   md.setCurrent(camera);
 
-  md.getDiff(); // create the diff image
+  PImage diff = md.getDiff(); // create the diff image
   PVector motion = md.getOverallMotionVector(); // get the motion vector
   motion.div(500); // reduce the weight it does by 500
   j.boost(new PVector(motion.y, motion.x)); // invert the vector and boost the object
 
   // Display user
   image(camera, 340, 500, 160, 120);
-  image(md.getDiff(), 0, 500, 160, 120);
+  image(diff, 0, 500, 160, 120);
   PVector loc = md.getMotionLocation();
   noStroke();
   fill(color(255, 0, 0));
