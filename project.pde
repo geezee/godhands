@@ -12,8 +12,12 @@ SimpleMotionDetection md; // the motion detection object
 PImage prev; // the previous frame
 
 
+float scale = 10;
+int offset = int(30/scale);
+
+
 void setup() {
-  j = new OBJ(location+"eiffel.obj");
+  j = new OBJ(location+"ak47.obj");
   size(600, 620, P3D);
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
@@ -40,7 +44,7 @@ void draw() {
   
   // setup the geometry of the scene
   left.translate(width/2, height/2);
-  left.scale(0.7); // scale the object so it's visible
+  left.scale(scale); // scale the object so it's visible
   
   
   // draw the shape
@@ -55,8 +59,8 @@ void draw() {
   
   // setup the geometry of the scene
   right.translate(width/2, height/2);
-  right.scale(0.7); // scale the object so it's visible
-  right.shape(j.getShape(),-30,0);
+  right.scale(scale); // scale the object so it's visible
+  right.shape(j.getShape(),-offset,0);
   right.endDraw();
 
   // update the eyes and display the result
