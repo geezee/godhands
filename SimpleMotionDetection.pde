@@ -11,8 +11,8 @@ class SimpleMotionDetection {
   private PImage previous; // the prvious frame
   private PImage current; // the current frame
   private int treshold; // strictness
-  private ArrayList points; // where the motion pixels are
   private PVector old; // the old motion vector
+  private int scanBlock; // what is the block size when scanning
 
 
   /**
@@ -22,11 +22,15 @@ class SimpleMotionDetection {
   */
   SimpleMotionDetection(int treshold) {
     this.treshold = treshold;
-    points = new ArrayList();
     old = new PVector(0, 0);
+    scanBlock = 8;
   }
 
-
+  
+  /**
+    * Setters for the previous/current and treshold
+    * variable
+  */
   void setPrevious(PImage p) {
     previous = p;
   }
@@ -38,6 +42,10 @@ class SimpleMotionDetection {
   }
 
 
+  /**
+    * Getters for the previous/current and treshold
+    * variable
+  */
   PImage getPrevious() {
     return previous;
   }
@@ -49,15 +57,18 @@ class SimpleMotionDetection {
   }
   
 
-  // Creates a dithered image representing the motion
-  // in the image
+
+  /**
+    * Method that creates a new PImage that represents the motion
+    * happening in both frames
+    *
+    * @return PImage        the image that shows the motion
+  */
   PImage getDiff() {
     PImage diff = createImage(previous.width, previous.height, RGB);
     diff.loadPixels();
     current.loadPixels();
     previous.loadPixels();
-    points = new ArrayList();
-
     for(int i=0;i<diff.pixels.length;i++) {
       color c = current.pixels[i];
       color p = previous.pixels[i];
@@ -65,10 +76,7 @@ class SimpleMotionDetection {
       float pr = red(p)+green(p)+blue(p);
 
       if(abs(cr-pr) < treshold*3) diff.pixels[i] = color(255);
-      else {
-        diff.pixels[i] = color(0);
-        points.add(new PVector(i%diff.width, i/diff.width));
-      }
+      else diff.pixels[i] = color(0);
     }
     diff.updatePixels();
 
@@ -76,19 +84,70 @@ class SimpleMotionDetection {
   }
 
 
-  // Get the motion location, where the motion
-  // is in the picture
+
+
+  /**
+    * Method that finds the location of the major
+    * motion in the self-generated diff image
+    *
+    * @return PVector       the location of the motion
+  */
   PVector getMotionLocation() {
-    PVector all = new PVector(0,0);
-    for(int i=0;i<points.size();i++)
-      all.add((PVector) points.get(i));
-    all.div(points.size());
-    all.add(old);
-    all.div(2);
-    return all;
+    return getMotionLocation(getDiff());
   }
 
-  // gets the overall motion vector
+
+  /**
+    * Method that finds the location of the major
+    * motion in the given diff image
+    *
+    * The algorithm deployed is as follow:
+    * we start by scanning blocks in the diff image
+    * then for the blocks that contain 80% black
+    * dots we add them to a list that holds
+    * the potential locations of the motion
+    * when finishing it finds the average of these
+    * locations
+    *
+    * @param PImage         the diff image
+    * @return PVector       the location of the motion
+  */
+  PVector getMotionLocation(PImage diff) {
+    ArrayList locations = new ArrayList();
+
+    for(int x=0;x<diff.width;x+=scanBlock) {
+      for(int y=0;y<diff.height;y+=scanBlock) {
+        int n = 0;
+        for(int i=0;i<scanBlock;i++) {
+          for(int j=0;j<scanBlock;j++) {
+            n += 1-int(red(diff.get(x+i, y+j))/255);
+          }
+        }
+        if(n >= scanBlock*scanBlock*0.8) {
+            locations.add(new PVector(x, y));
+        }
+      }
+    }
+
+
+    PVector location = new PVector(0, 0);
+    for(int i=0;i<locations.size();i++)
+        location.add((PVector) locations.get(i));
+    location.div(locations.size());
+
+    if(location.x == 0 && location.y == 0)
+        return old;
+    return location;
+  }
+
+
+
+
+  /**
+    * Method that finds out the motion vector
+    *
+    * @return PVector       the overall motion detection
+  */
   PVector getOverallMotionVector() {
     PVector motion = getMotionLocation();
     if(!Float.isNaN(motion.x)) {
