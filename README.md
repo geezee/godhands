@@ -4,7 +4,7 @@ GODHANDS
 Description
 -----------
 An application that lets you interact with 3D objects in space!
-Originally a final year project for the Digital Media Programming course (CMPS230) at the [American University of Beirut](http://aub.edu.lb)
+Originally a final year project for the Digital Media Programming course (CMPS230) at the [American University of Beirut](http://aub.edu.lb) advised by [Dr. Maha El Choubassi](http://choubassi.com)
 
 You load an object (.obj) file, you turn on your camera, and move around, the object will react according to your movements.
 
