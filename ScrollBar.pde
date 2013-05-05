@@ -61,6 +61,7 @@ class ScrollBar {
         dotX = x+int((value/upperRange)*width);
         ellipse(dotX, y+1, 10, 10);
 
+        // Change the value when the mouse is on the bar
         if(mousePressed &&
            mouseY >= y-5 && mouseY <= y+5 &&
            mouseX >= x && mouseX <= x+width) {

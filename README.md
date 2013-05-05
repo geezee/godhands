@@ -39,6 +39,7 @@ The projects includes the following:
 * [**Anaglyph Library**](#anaglyph)
 * [**OBJ Library**](#obj)
 * [**SimpleMotionDetection**](#motion)
+* [**ScrollBar**]{#scroll)
 
 ###Anaglyph Library<a id="anaglyph"></a>
 The library consists of a class `Anaglyph` that creates anaglyph images provided two `PImage`s 
@@ -135,7 +136,8 @@ void setup() {
 void draw() {
         if(camera.available()) {
                 prev = createImage(camera.width, camera.height, RGB);
-                prev.copy(camera, 0, 0, camera.width, camera.height, 0, 0, camera.width, camera.height);
+                prev.copy(camera, 0, 0, camera.width, camera.height, 0, 0,
+                          camera.width, camera.height);
                 prev.updatePixels();
                 camera.read();
         }
@@ -150,6 +152,38 @@ void draw() {
         fill(color(255, 0, 0));
         ellipse(320+loc.x, loc.y);
 }
+```
+
+###Scrollbar<a id="scroll"></a>
+The library consists of a class called `ScrollBar` that handles minimalistic scroll bars. Given the label
+the width, the maximum value and the position the library will draw a bar where the user can select values
+from.
+
+The public methods in the class are:
+
+- `ScrollBar(int,int,String,float,int)` (Constructor) takes the x position, y position, the label of the bar, the maximum value and the width of the bar
+- `getLabel()` returns the label used
+- `getValue()` returns the current value that the bar represents
+- `setLabel(String)` changes the label to a given one
+- `setValue(float)` changes the value to a new one
+- `show()` displays the bar
+
+
+```
+ScrollBar sensitivity;
+
+void setup() {
+    sensitivity = new ScrollBar(10, 10, "Sensitivity", 10, 100);
+    sensitivity.setValue(3); // default value
+
+    size(200, 400);
+}
+
+void draw() {
+    sensitivity.show();
+    println("Current sensitivity is: "+sensitivity.getValue());
+}
+
 ```
 
 
