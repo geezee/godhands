@@ -40,6 +40,9 @@ class SimpleMotionDetection {
   void setTreshold(int t) {
     treshold = t;
   }
+  void setBlockSize(int s) {
+      scanBlock = s;
+  }
 
 
   /**
@@ -55,6 +58,10 @@ class SimpleMotionDetection {
   int getTreshold() {
     return treshold;
   }
+  int getBlockSize() {
+      return scanBlock;
+  }
+
   
 
 

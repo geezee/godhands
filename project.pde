@@ -11,16 +11,27 @@ Capture camera; // the webcam
 SimpleMotionDetection md; // the motion detection object
 PImage prev; // the previous frame
 
+// the bars that change the parameters
+ScrollBar scaleBar;
+ScrollBar tresholdBar;
+ScrollBar blockSizeBar;
 
-float scale = 0.7;
-int offset = int(30/scale);
+float scale;
+int offset;
 
 
 void setup() {
-  j = new OBJ(location+"eiffel.obj");
+  j = new OBJ(location+"ak47.obj");
   size(600, 620, P3D);
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
+
+  scaleBar = new ScrollBar(330, 480, "Scale", 100, 100);
+  scaleBar.setValue(0.7);
+  tresholdBar = new ScrollBar(330, 460, "Sensitivity", 256, 100);
+  tresholdBar.setValue(50);
+  blockSizeBar = new ScrollBar(330, 440, "Block Size", 50, 100);
+  blockSizeBar.setValue(8);
 
   camera = new Capture(this, 320, 240, 30);
   camera.start();
@@ -91,6 +102,18 @@ void draw() {
   noStroke();
   fill(color(255, 0, 0));
   ellipse(340+loc.x/2, 500+loc.y/2, 5, 5);
+
+
+  // Display the bars and change the parameters
+  scaleBar.show();
+  scale = scaleBar.getValue();
+  offset = int(30/scale);
+
+  tresholdBar.show();
+  md.setTreshold((int) tresholdBar.getValue());
+
+  blockSizeBar.show();
+  md.setBlockSize((int) blockSizeBar.getValue());
 }
 
 

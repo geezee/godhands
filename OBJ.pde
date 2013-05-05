@@ -21,11 +21,23 @@ class OBJ {
   
   /**
    * Returns the shape that is loaded
+   * and updates it
+   *
    * @return PShape  The shape that is used
   */
   PShape getShape() {
     update(); // before getting, update the shape
     return shape;
+  }
+
+  /**
+   * Returns the shape that was loaded
+   * without updating it
+   *
+   * @return PShape  The shape that is used
+  */
+  PShape shape() {
+      return shape;
   }
 
   
