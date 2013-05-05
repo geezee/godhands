@@ -39,7 +39,7 @@ The projects includes the following:
 * [**Anaglyph Library**](#anaglyph)
 * [**OBJ Library**](#obj)
 * [**SimpleMotionDetection**](#motion)
-* [**ScrollBar**]{#scroll)
+* [**ScrollBar**](#scroll)
 
 ###Anaglyph Library<a id="anaglyph"></a>
 The library consists of a class `Anaglyph` that creates anaglyph images provided two `PImage`s 
