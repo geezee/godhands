@@ -1,10 +1,13 @@
 import processing.video.*;
+import javax.swing.*;
+
+
+
 
 OBJ j;
 //
 // UPDATE THIS TO INCLUDE THE ABSOLUTE PATH IN YOUR COMPUTER!
 //
-String location = "/home/euler/sketchbook/project/assets/"; 
 PGraphics left, right;
 Anaglyph a = new Anaglyph(left, right); // the anaglyph object
 Capture camera; // the webcam
@@ -19,10 +22,24 @@ ScrollBar blockSizeBar;
 float scale;
 int offset;
 
+// File Chooser
+JFileChooser fc = new JFileChooser();
+int fcValue;
+
 
 void setup() {
-  j = new OBJ(location+"ak47.obj");
   size(600, 620, P3D);
+
+  // File Chooser
+  fcValue = fc.showOpenDialog(this);
+  if(fcValue == JFileChooser.APPROVE_OPTION) {
+    File f = fc.getSelectedFile();
+    j = new OBJ(f.getPath());
+  } else {
+    System.exit(-1);
+  }
+  
+
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
 
