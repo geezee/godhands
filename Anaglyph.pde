@@ -88,10 +88,12 @@ class Anaglyph {
     img.loadPixels();
     bw.loadPixels();
     
-    for(int i=0;i<img.pixels.length;i++) {
-      bw.pixels[i] = color(int(red(img.pixels[i])*.21 +
-                     blue(img.pixels[i])*.07 +
-                     green(img.pixels[i])*.71));
+    for(int i=0;i<right.pixels.length;i++) {
+      int r = int(red(left.pixels[i])*0.21 + green(left.pixels[i])*0.71
+                  + blue(left.pixels[i])*0.07);
+      int c = int(red(right.pixels[i])*0.21 + green(right.pixels[i])*0.71
+                  + blue(right.pixels[i])*0.07);
+      anaglyph.pixels[i] = color(r,c,c);
     }
     
     bw.updatePixels();
