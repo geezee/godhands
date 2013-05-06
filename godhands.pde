@@ -13,6 +13,9 @@ Capture camera; // the webcam
 SimpleMotionDetection md; // the motion detection object
 PImage prev; // the previous frame
 
+
+boolean play; // state of sound
+
 // the bars that change the parameters
 ScrollBar scaleBar;
 ScrollBar tresholdBar;
@@ -25,8 +28,7 @@ float scale;
 JFileChooser fc = new JFileChooser();
 int fcValue = fc.showOpenDialog(this);
 
-JFileChooser fc_2 = new JFileChooser();
-int fcValue_2 = fc_2.showOpenDialog(this);
+
 
 void setup() {
   size(600, 620, P3D);
@@ -38,15 +40,7 @@ void setup() {
     System.exit(-1); // exit if the user didn't provide a file
   }
   
-  //allow the user to play music while using the application
-   String name=""; 
-   if(fcValue_2 == JFileChooser.APPROVE_OPTION) {
-    File f = fc_2.getSelectedFile();
-     name= f.getPath();
-     minim = new Minim(this);
-     player = minim.loadFile(name, 2048);
-     player.play();
-  }
+ 
   
 
   left = createGraphics(600,500,P3D);
@@ -148,6 +142,8 @@ void draw() {
 
   blockSizeBar.show();
   md.setBlockSize((int) blockSizeBar.getValue());
+  
+  buttons();
 }
 
 
@@ -168,5 +164,68 @@ void keyPressed() {
       j.rotateLeft(); break;
     case ENTER:
       j.boost(new PVector(random(-0.5,0.5), random(-0.5,0.5))); break;
+  }
+}
+
+void buttons(){
+  stroke(200);
+  fill(125);
+  rect(width-100,0,100,30);
+  fill(0);
+  text("Change Model",width-90,20);
+  fill(125);
+  rect(0,0,80,30);
+  rect(82,0,30,30);
+  fill(200);
+  if(play){
+    rect(90,5,5,20);
+    rect(100,5,5,20);
+  }
+  else {
+    beginShape();
+      vertex(90,5);
+      vertex(105,15);
+      vertex(90,25);
+    endShape();
+  }
+  fill(0);
+  text("Play Music",10,20);
+}
+
+void mousePressed(){
+  //allow the user to change the model
+  if(mouseX>width-100 && mouseX<width && mouseY >0 && mouseY <30){
+      fc = new JFileChooser();
+      fcValue = fc.showOpenDialog(this);
+      if(fcValue == JFileChooser.APPROVE_OPTION) {
+          File f = fc.getSelectedFile();
+          j = new OBJ(f.getPath());
+    }
+  }
+  else if( mouseX>0 && mouseX<80 && mouseY >0 && mouseY <30){
+      JFileChooser fc_2 = new JFileChooser();
+      int fcValue_2 = fc_2.showOpenDialog(this);
+       //allow the user to play music while using the application
+       String name=""; 
+       if(fcValue_2 == JFileChooser.APPROVE_OPTION) {
+           File f = fc_2.getSelectedFile();
+           name= f.getPath();
+           minim = new Minim(this);
+           player = minim.loadFile(name, 2048);
+           player.play();
+           play=true;
+        }
+  }
+  
+  //pause or play current music file
+  else if(minim!=null && mouseX>82 && mouseX<112 && mouseY >0 && mouseY <30){
+    if(play){
+      player.pause();
+      play=false;
+    }
+    else {
+      player.play();
+      play=true;
+    }
   }
 }
