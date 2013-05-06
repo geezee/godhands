@@ -2,12 +2,7 @@ import processing.video.*;
 import javax.swing.*;
 
 
-
-
 OBJ j;
-//
-// UPDATE THIS TO INCLUDE THE ABSOLUTE PATH IN YOUR COMPUTER!
-//
 PGraphics left, right;
 Anaglyph a = new Anaglyph(left, right); // the anaglyph object
 Capture camera; // the webcam
@@ -24,21 +19,16 @@ int offset;
 
 // File Chooser
 JFileChooser fc = new JFileChooser();
-int fcValue;
-
+int fcValue = fc.showOpenDialog(this);
 
 void setup() {
   size(600, 620, P3D);
-
-  // File Chooser
-  fcValue = fc.showOpenDialog(this);
-  if(fcValue == JFileChooser.APPROVE_OPTION) {
-    File f = fc.getSelectedFile();
-    j = new OBJ(f.getPath());
-  } else {
-    System.exit(-1);
-  }
-  
+if(fcValue == JFileChooser.APPROVE_OPTION) {
+  File f = fc.getSelectedFile();
+  j = new OBJ(f.getPath());
+} else {
+  System.exit(-1);
+}
 
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
@@ -124,7 +114,7 @@ void draw() {
   // Display the bars and change the parameters
   scaleBar.show();
   scale = scaleBar.getValue();
-  offset = int(30/scale);
+  offset = int(scale/30-10);
 
   tresholdBar.show();
   md.setTreshold((int) tresholdBar.getValue());
