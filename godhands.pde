@@ -13,9 +13,9 @@ PImage prev; // the previous frame
 ScrollBar scaleBar;
 ScrollBar tresholdBar;
 ScrollBar blockSizeBar;
+ScrollBar depthBar;
 
 float scale;
-int offset;
 
 // File Chooser
 JFileChooser fc = new JFileChooser();
@@ -23,12 +23,13 @@ int fcValue = fc.showOpenDialog(this);
 
 void setup() {
   size(600, 620, P3D);
-if(fcValue == JFileChooser.APPROVE_OPTION) {
-  File f = fc.getSelectedFile();
-  j = new OBJ(f.getPath());
-} else {
-  System.exit(-1);
-}
+
+  if(fcValue == JFileChooser.APPROVE_OPTION) {
+    File f = fc.getSelectedFile();
+    j = new OBJ(f.getPath());
+  } else {
+    System.exit(-1); // exit if the user didn't provide a file
+  }
 
   left = createGraphics(500,500,P3D);
   right = createGraphics(500,500,P3D);
@@ -39,6 +40,8 @@ if(fcValue == JFileChooser.APPROVE_OPTION) {
   tresholdBar.setValue(50);
   blockSizeBar = new ScrollBar(330, 440, "Block Size", 50, 100);
   blockSizeBar.setValue(8);
+  depthBar = new ScrollBar(330, 420, "Depth", 50, 100);
+  depthBar.setValue(10);
 
   camera = new Capture(this, 320, 240, 30);
   camera.start();
@@ -62,11 +65,11 @@ void draw() {
   
   // setup the geometry of the scene
   left.translate(width/2, height/2);
-  left.scale(scale); // scale the object so it's visible
   
   
   // draw the shape
-  left.shape(j.getShape(),0,0);
+  left.scale(scale);
+  left.shape(j.getShape(),depthBar.getValue()/(2*scale),0);
   left.endDraw();
   
   right.beginDraw();
@@ -77,8 +80,8 @@ void draw() {
   
   // setup the geometry of the scene
   right.translate(width/2, height/2);
-  right.scale(scale); // scale the object so it's visible
-  right.shape(j.getShape(),-offset,0);
+  right.scale(scale);
+  right.shape(j.getShape(),-depthBar.getValue()/(2*scale),0);
   right.endDraw();
 
   // update the eyes and display the result
@@ -112,9 +115,10 @@ void draw() {
 
 
   // Display the bars and change the parameters
+  depthBar.show();
+
   scaleBar.show();
   scale = scaleBar.getValue();
-  offset = int(scale/30-10);
 
   tresholdBar.show();
   md.setTreshold((int) tresholdBar.getValue());
