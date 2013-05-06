@@ -31,16 +31,16 @@ void setup() {
     System.exit(-1); // exit if the user didn't provide a file
   }
 
-  left = createGraphics(500,500,P3D);
-  right = createGraphics(500,500,P3D);
+  left = createGraphics(600,500,P3D);
+  right = createGraphics(600,500,P3D);
 
-  scaleBar = new ScrollBar(330, 480, "Scale", 100, 100);
+  scaleBar = new ScrollBar(250, 580, "Scale", 100, 100);
   scaleBar.setValue(0.7);
-  tresholdBar = new ScrollBar(330, 460, "Sensitivity", 256, 100);
+  tresholdBar = new ScrollBar(250, 560, "Sensitivity", 256, 100);
   tresholdBar.setValue(50);
-  blockSizeBar = new ScrollBar(330, 440, "Block Size", 50, 100);
+  blockSizeBar = new ScrollBar(250, 540, "Block Size", 50, 100);
   blockSizeBar.setValue(8);
-  depthBar = new ScrollBar(330, 420, "Depth", 50, 100);
+  depthBar = new ScrollBar(250, 520, "Depth", 50, 100);
   depthBar.setValue(10);
 
   camera = new Capture(this, 320, 240, 30);
@@ -55,6 +55,11 @@ void setup() {
  * Draws the frame
 */
 void draw() {
+  // Fill the viewport with a black background
+  fill(color(0));
+  noStroke();
+  rect(0,0,600,620);
+
   left.beginDraw();
   left.background(0);
   left.noStroke();
@@ -106,12 +111,12 @@ void draw() {
   j.boost(new PVector(motion.y, motion.x)); // invert the vector and boost the object
 
   // Display user
-  image(camera, 340, 500, 160, 120);
+  image(camera, 440, 500, 160, 120);
   image(diff, 0, 500, 160, 120);
   PVector loc = md.getMotionLocation(diff);
   noStroke();
   fill(color(255, 0, 0));
-  ellipse(340+loc.x/2, 500+loc.y/2, 5, 5);
+  ellipse(440+loc.x/2, 500+loc.y/2, 5, 5);
 
 
   // Display the bars and change the parameters
