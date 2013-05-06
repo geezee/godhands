@@ -1,6 +1,10 @@
 import processing.video.*;
 import javax.swing.*;
 import java.io.*;
+import ddf.minim.*;
+
+AudioPlayer player;
+Minim minim;//audio context
 
 OBJ j;
 PGraphics left, right;
@@ -21,6 +25,9 @@ float scale;
 JFileChooser fc = new JFileChooser();
 int fcValue = fc.showOpenDialog(this);
 
+JFileChooser fc_2 = new JFileChooser();
+int fcValue_2 = fc_2.showOpenDialog(this);
+
 void setup() {
   size(600, 620, P3D);
 
@@ -30,6 +37,17 @@ void setup() {
   } else {
     System.exit(-1); // exit if the user didn't provide a file
   }
+  
+  //allow the user to play music while using the application
+   String name=""; 
+   if(fcValue_2 == JFileChooser.APPROVE_OPTION) {
+    File f = fc_2.getSelectedFile();
+     name= f.getPath();
+     minim = new Minim(this);
+     player = minim.loadFile(name, 2048);
+     player.play();
+  }
+  
 
   left = createGraphics(600,500,P3D);
   right = createGraphics(600,500,P3D);
