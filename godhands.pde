@@ -40,7 +40,20 @@ void setup() {
     System.exit(-1); // exit if the user didn't provide a file
   }
   
+<<<<<<< HEAD
  
+=======
+  //allow the user to play music while using the application
+   String name=""; 
+   if(fcValue_2 == JFileChooser.APPROVE_OPTION) {
+    File f = fc_2.getSelectedFile();
+     name= f.getPath();
+     minim = new Minim(this);
+     player = minim.loadFile(name, 2048);
+     player.play();
+     println("Playing");
+  }
+>>>>>>> ebee6843139a3b152a9103b2cca3aded74ba0a19
   
 
   left = createGraphics(600,500,P3D);
