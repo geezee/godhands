@@ -46,6 +46,7 @@ void setup() {
      minim = new Minim(this);
      player = minim.loadFile(name, 2048);
      player.play();
+     println("Playing");
   }
   
 

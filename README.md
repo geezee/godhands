@@ -28,6 +28,7 @@ For Debian user, processing (to connect to the camera depends on the following p
 - `libgstreamer-plugins-base0.10-dev`
 - `libgstfarsight0.10-dev`
 - `libgstreamer0.10-dev`
+- If sound is not playing please read this temporary fix [here](http://code.google.com/p/processing/issues/detail?id=930)
 
 
 Documentation
