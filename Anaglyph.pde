@@ -65,10 +65,13 @@ class Anaglyph {
     
 
     // Create the anaglyph image from the left cyan and red right
-    for(int i=0;i<right.pixels.length;i++)
-      anaglyph.pixels[i] = color(red(left.pixels[i]), 
-                                 green(right.pixels[i]),
-                                 blue(right.pixels[i]));
+    for(int i=0;i<right.pixels.length;i++) {
+      int r = int(red(left.pixels[i])*0.21 + green(left.pixels[i])*0.71
+                  + blue(left.pixels[i])*0.07);
+      int c = int(red(right.pixels[i])*0.21 + green(right.pixels[i])*0.71
+                  + blue(right.pixels[i])*0.07);
+      anaglyph.pixels[i] = color(r,c,c);
+    }
     
     anaglyph.updatePixels();
     return anaglyph;
